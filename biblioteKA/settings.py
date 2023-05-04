@@ -46,6 +46,7 @@ MY_APPS = [
     "users",
     "books",
     "loan",
+    "copies",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
