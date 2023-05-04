@@ -9,10 +9,10 @@ class Loan(models.Model):
     user = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
-        related_name="albums",
+        related_name="loans",
     )
     copy = models.ForeignKey(
-        "books.Copy",
+        "copies.Copy",
         on_delete=models.CASCADE,
-        related_name="albums",
+        related_name="loans",
     )
