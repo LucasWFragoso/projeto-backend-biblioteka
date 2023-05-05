@@ -7,8 +7,7 @@ class Book(models.Model):
     author = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     
-    copy = models.ForeignKey('Copy', on_delete=models.CASCADE)
-    follow = models.ForeignKey('Follow', on_delete=models.CASCADE)
+    follow = models.ForeignKey("Follow", on_delete=models.CASCADE, related_name="follows", null=True)
 
 
 # Model da Cópia que deve ter a ForeignKey de Book
