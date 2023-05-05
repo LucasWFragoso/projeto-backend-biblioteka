@@ -3,7 +3,11 @@ from django.db import models
 
 # Model do Livro que também deve ter um campo read only com uma lógica que leia quantas Copy pertencem ao ID do próprio Book.
 class Book(models.Model):
-    ...
+    name = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    
+    follow = models.ForeignKey("Follow", on_delete=models.CASCADE, related_name="follows", null=True)
 
 
 # Model da Cópia que deve ter a ForeignKey de Book
