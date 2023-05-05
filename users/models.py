@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-# Utilizar a classe AbstractUser do django e modificar de acordo com a model que criamos
-
-# class User(AbstractUser):
-#     ...
+class User(AbstractUser):
+    name = models.CharField(max_length=50)
+    email = models.CharField(max_length=100, unique=True)
+    birthdate = models.DateField(null=True)
+    collaborator = models.BooleanField(default=False, null=True)
+    is_active = models.BooleanField(default=False, null=True)
