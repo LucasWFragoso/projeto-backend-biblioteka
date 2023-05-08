@@ -5,17 +5,26 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from serializers import CopySerializer
-from models import Copy
+
+# from serializers import CopySerializer
+from .serializers import CopySerializer
+from .models import Copy
 from users.permissions import IsAdminOrReadOnly
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from books.serializers import Book
 
 
 class CreateCopyView(CreateAPIView):
     serializer_class = CopySerializer
     queryset = Copy.objects.all()
-    # authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminOrReadOnly]
-    lookup_url_kwarg = "pk"
+    lookup_url_kwarg = "book_id"
+
+    def perform_create(self, serializer):
+        book = Book.objects.get(pk=self.kwargs["book_id"])
+        # book_id = self.lookup_url_kwarg
+        serializer.save(book=book)
 
 
 from books.models import Follow
