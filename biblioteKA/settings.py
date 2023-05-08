@@ -48,12 +48,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = ["rest_framework"]
 
 
-MY_APPS = [
-    "users",
-    "books",
-    "loan",
-    "copies",
-]
+MY_APPS = ["users", "books", "loan", "copies", "drf_spectacular"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -170,4 +165,13 @@ AUTH_USER_MODEL = "users.User"
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "biblioteKA API",
+    "DESCRIPTION": "A library API that provides multiple functionalities for real situations and allow both users and collaborators to have practicality use.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
 }
