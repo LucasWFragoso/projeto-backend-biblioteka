@@ -7,7 +7,6 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 
-# from serializers import CopySerializer
 from .serializers import CopySerializer
 from .models import Copy
 from users.permissions import IsAdminOrReadOnly
