@@ -7,13 +7,14 @@ class Book(models.Model):
     name = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
+    copies_count = models.IntegerField(default=0)
 
 
 # Model do Seguindo, contém a ForeignKey do usuário e ForeignKey de Book
 class Follow(models.Model):
     book = models.ForeignKey(
-        Book, on_delete=models.CASCADE, related_name="follows", null=True
+        Book, on_delete=models.CASCADE, related_name="book", null=True
     )
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="follows", null=True
+        User, on_delete=models.CASCADE, related_name="user", null=True
     )
