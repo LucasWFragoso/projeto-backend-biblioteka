@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .models import User
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.settings import api_settings
+from rest_framework import exceptions
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -39,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
             "birthdate",
             "password",
             "is_superuser",
+            "username",
         ]
         read_only_fields = ["is_superuser"]
         extra_kwargs = {"password": {"write_only": True}}
