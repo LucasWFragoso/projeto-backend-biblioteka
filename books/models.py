@@ -6,6 +6,7 @@ class Book(models.Model):
     name = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
+    copies_count = models.IntegerField(default=0)
 
 
 class Follow(models.Model):
