@@ -16,17 +16,3 @@ class Loan(models.Model):
         on_delete=models.CASCADE,
         related_name="loans",
     )
-
-    def save(self, *args, **kwargs):
-        self.copy.is_deleted = True
-        self.copy.save()
-        self.copy.book.copies_count -= 1
-        self.copy.book.save()
-        super().save(*args, **kwargs)
-
-    def update(self, *args, **kwargs):
-        self.copy.is_deleted = False
-        self.copy.save()
-        self.copy.book.copies_count += 1
-        self.copy.book.save()
-        super().save(*args, **kwargs)
