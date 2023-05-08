@@ -2,7 +2,6 @@ from django.db import models
 from users.serializers import User
 
 
-# Model do Livro que também deve ter um campo read only com uma lógica que leia quantas Copy pertencem ao ID do próprio Book.
 class Book(models.Model):
     name = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
@@ -10,7 +9,6 @@ class Book(models.Model):
     copies_count = models.IntegerField(default=0)
 
 
-# Model do Seguindo, contém a ForeignKey do usuário e ForeignKey de Book
 class Follow(models.Model):
     book = models.ForeignKey(
         Book, on_delete=models.CASCADE, related_name="book", null=True
