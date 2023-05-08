@@ -8,8 +8,3 @@ class Copy(models.Model):
         related_name="copies",
     )
     is_deleted = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        self.book.copies_count += 1
-        self.book.save()
-        self.save()
