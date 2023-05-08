@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Loan(models.Model):
-    created_at = models.DateField(null=False)
+    created_at = models.DateField(auto_now_add=True)
     devolution_date = models.DateField(null=False)
     is_returned = models.BooleanField(default=False)
 
