@@ -2,9 +2,12 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 def main():
+    # scheduler = BackgroundScheduler()
+    # scheduler.start()
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "biblioteKA.settings")
     try:

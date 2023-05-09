@@ -7,3 +7,4 @@ class User(AbstractUser):
     birthdate = models.DateField(null=True)
     collaborator = models.BooleanField(default=False, null=True)
     is_active = models.BooleanField(default=True, null=True)
+    is_allowed = models.BooleanField(default=True, null=True)

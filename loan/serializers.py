@@ -19,19 +19,23 @@ class LoanSerializer(serializers.ModelSerializer):
     )
 
     def create(self, validated_data):
-        devolution_date = date.today() + timedelta(days=7)
-        while is_weekend(devolution_date):
-            devolution_date += timedelta(days=1)
-        validated_data["devolution_date"] = devolution_date
-        book = validated_data.pop("book")
-        if book.copies_count == 0:
-            raise Exception("Não tem cópias disponíveis!")
-        book.copies_count -= 1
-        book.save()
-        copy_id = book.copies.first().id
-        data = {"copy_id": copy_id, **validated_data}
+        user = validated_data.get("user")
+        if user.is_allowed:
+            devolution_date = date.today() + timedelta(days=7)
+            while is_weekend(devolution_date):
+                devolution_date += timedelta(days=1)
+            validated_data["devolution_date"] = devolution_date
+            book = validated_data.pop("book")
+            if book.copies_count == 0:
+                raise Exception("Não tem cópias disponíveis!")
+            book.copies_count -= 1
+            book.save()
+            copy_id = book.copies.first().id
+            data = {"copy_id": copy_id, **validated_data}
 
-        return super().create(data)
+            return super().create(data)
+        else:
+            raise Exception("User isn't allowed to borrow!")
 
     def update(self, instance, validated_data):
         copy = Copy.objects.get(id=instance.copy_id)
