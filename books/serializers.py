@@ -8,10 +8,11 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ["id", "name", "author", "category"]
-        
+        fields = ["id", "name", "author", "category", "copies_count"]
+        extra_kwargs = {"copies_count": {"read_only": True}}
+
+
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ["id", "book", "user"]
-        
