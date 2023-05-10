@@ -17,3 +17,4 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny & IsAdminOrReadOnly]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
