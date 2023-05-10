@@ -12,5 +12,11 @@ class LoanConfig(AppConfig):
     def ready(self):
         from .jobs import LoanJob
 
-        LoanJob.run()
+        scheduler.add_job(
+            LoanJob.run,
+            trigger="interval",
+            seconds=6,
+            id="loan_check",
+            replace_existing=True,
+        )
         scheduler.start()

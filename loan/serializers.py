@@ -4,10 +4,15 @@ from users.models import User
 from copies.models import Copy
 from datetime import timedelta, date
 from books.models import Book
+from rest_framework.exceptions import ValidationError
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 def is_weekend(day):
     return day.weekday() >= 5
+
+
+scheduler = BackgroundScheduler()
 
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -27,7 +32,7 @@ class LoanSerializer(serializers.ModelSerializer):
             validated_data["devolution_date"] = devolution_date
             book = validated_data.pop("book")
             if book.copies_count == 0:
-                raise Exception("Não tem cópias disponíveis!")
+                raise ValidationError("Não tem cópias disponíveis!")
             book.copies_count -= 1
             book.save()
             copy_id = book.copies.first().id
@@ -35,14 +40,40 @@ class LoanSerializer(serializers.ModelSerializer):
 
             return super().create(data)
         else:
-            raise Exception("User isn't allowed to borrow!")
+            raise ValidationError("User isn't allowed to borrow!")
 
     def update(self, instance, validated_data):
+        is_returned = validated_data.get("is_returned")
+
+        if is_returned:
+            self.schedule_user_unblock(instance)
         copy = Copy.objects.get(id=instance.copy_id)
         book = Book.objects.get(id=copy.book_id)
         book.copies_count += 1
         book.save()
         return super().update(instance, validated_data)
+
+    @classmethod
+    def schedule_user_unblock(cls, instance):
+        if not instance.is_returned:
+            scheduler.add_job(
+                func=cls.unblock_user,
+                args=[instance.user_id],
+                trigger="interval",
+                hours=120,
+                id=f"user_{instance.user_id}_unblock",
+            )
+            scheduler.start()
+
+    @staticmethod
+    def unblock_user(user_id):
+        from users.models import User
+
+        user = User.objects.get(id=user_id)
+        user.is_allowed = True
+        user.save()
+        scheduler.pause_job(job_id=f"user_{user_id}_unblock")
+        return
 
     class Meta:
         model = Loan
