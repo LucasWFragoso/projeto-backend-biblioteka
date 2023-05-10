@@ -1,14 +1,9 @@
 from django.shortcuts import render
-
 from rest_framework.generics import (
     CreateAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
     DestroyAPIView,
 )
-
 from .serializers import CopySerializer
-from .models import Copy
 from users.permissions import IsAdminOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from books.serializers import Book

@@ -3,10 +3,10 @@ from users.serializers import User
 
 
 class Book(models.Model):
-    name = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    copies_count = models.IntegerField(default=0)
+    name = models.CharField(max_length=80)
+    author = models.CharField(max_length=80)
+    category = models.CharField(max_length=20)
+    copies_count = models.IntegerField(default=5)
 
 
 class Follow(models.Model):
