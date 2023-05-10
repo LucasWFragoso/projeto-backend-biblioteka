@@ -3,13 +3,15 @@ from .models import Loan
 from .serializers import LoanSerializer
 from datetime import datetime
 from rest_framework.views import Response, status
-from users.permissions import OwnerOrAdmin
+from users.permissions import OwnerOrAdmin, IsAdminOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import User
 from django.shortcuts import get_object_or_404
 
 
 class LoanView(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
 
@@ -26,6 +28,8 @@ class LoanView(generics.ListCreateAPIView):
 
 
 class LoanViewDetail(generics.RetrieveUpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
     lookup_url_kwarg = "loan_id"
